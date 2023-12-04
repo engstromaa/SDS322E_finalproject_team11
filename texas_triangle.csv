@@ -1,0 +1,36 @@
+library(dplyr)
+library(ggplot2)
+
+mixbev <- read.csv("mixbev_txsub.csv")
+texas_triangle <- c("DALLAS", "AUSTIN", "HOUSTON")
+
+Dallas_Receipts <- mixbev %>%
+  filter(Taxpayer.City == "DALLAS") %>%
+  summarize(Total_Receipts = sum(Total.Receipts))
+
+Austin_Receipts <- mixbev %>%
+  filter(Taxpayer.City == "AUSTIN") %>%
+  summarize(Total_Receipts = sum(Total.Receipts))
+
+Houston_Receipts <- mixbev %>%
+  filter(Taxpayer.City == "HOUSTON") %>%
+  summarize(Total_Receipts = sum(Total.Receipts))
+
+texas_triangle_receipts <- mixbev %>%
+  filter(Taxpayer.City %in% texas_triangle) %>%
+  summarize(Total_Receipts = sum(Total.Receipts))
+
+# Combine individual data frames into one
+combined_data <- bind_rows(
+  Dallas_Receipts,
+  Austin_Receipts,
+  Houston_Receipts,
+  texas_triangle_receipts
+)
+
+ggplot(combined_data, aes(x = c("Dallas", "Austin", "Houston", "Total Texas Triangle"), y = Total_Receipts)) +
+  geom_bar(stat = "identity", fill = "blue") +
+  labs(title = "Receipts in Texas Triangle Cities",
+       x = "City",
+       y = "Total Receipts") +
+  theme_minimal()
