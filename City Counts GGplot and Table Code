@@ -1,3 +1,4 @@
+
 mixbev_dataset <- read.csv("mixbev_txsub.csv")
 
 library(dplyr)
@@ -14,17 +15,10 @@ ggplot(city_counts, aes(x = Taxpayer.City, y = count)) +
   labs(title = "City Reoccurence across Mixed Bev Data", 
        x = "City", 
        y = "Count") +
-theme(axis.text.x = element_text(angle = 90, hjust = 1, size = 2))
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, size = 4))
 
-
-# Assuming 'business_data' is your dataset with a column 'city'
+#Count of Receipts per City
 city_table <- table(mixbev_dataset$Taxpayer.City)
-
-# Convert the table to a data frame for better presentation
 city_table_df <- as.data.frame(city_table)
-
-# Rename the columns for clarity
 colnames(city_table_df) <- c("City", "Count")
-
-# FINAL Print the resulting data frame - table OF CITY COUNTS
 print(city_table_df)
